@@ -6,6 +6,7 @@ import static io.restassured.RestAssured.given;
 
 public class API_GetProducts {
     public static ProductListResponse getAllProducts(String token) {
+        RestAssured.baseURI = "https://rahulshettyacademy.com/api/ecom/";
         return given()
                 .contentType("application/json")
                 .header("Authorization", token)
