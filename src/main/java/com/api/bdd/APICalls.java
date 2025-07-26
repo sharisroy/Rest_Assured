@@ -1,4 +1,4 @@
-package stepdefinitions;
+package com.api.bdd;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -13,7 +13,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class LoginTest {
+public class APICalls {
     public static void main(String[] args) {
         RestAssured.baseURI = "https://rahulshettyacademy.com/api/ecom/";
 
@@ -48,7 +48,7 @@ public class LoginTest {
         System.out.println("========= Response Headers =========");
         login_response.getHeaders().forEach(System.out::println);
 
-//        Get Product List
+// Get Product List
         Response getProductList_response = given()
 //                .log().all()
                 .headers("Content-Type", "application/json","Authorization", login_jsonPath.getString("token") )
@@ -73,8 +73,7 @@ public class LoginTest {
         addToCart_payload.put("_id", login_jsonPath.getString("userId"));
         addToCart_payload.put("product", firstProduct); // another Map
 
-        Response addToCard_response = RestAssured
-                .given()
+        Response addToCard_response = given()
 //                .log().all()
                 .body(addToCart_payload)
                 .headers("Content-Type", "application/json",
@@ -94,8 +93,7 @@ public class LoginTest {
 
         // Get Cart
 
-        Response getCart_response = RestAssured
-                .given()
+        Response getCart_response = given()
 //                .log().all()
                 .headers("Content-Type", "application/json",
                         "Authorization", login_jsonPath.getString("token"))
@@ -148,8 +146,7 @@ public class LoginTest {
         System.out.println("Message : " + createOrder_jsonPath.getString("message"));
 
 //        Get Orders
-        Response getOrder_response = RestAssured
-                .given()
+        Response getOrder_response = given()
 //                .log().all()
                 .headers("Content-Type", "application/json",
                         "Authorization", login_jsonPath.getString("token"))
@@ -170,8 +167,7 @@ public class LoginTest {
 
 
 //        Get Order Details
-        Response getOrderDetails_response = RestAssured
-                .given()
+        Response getOrderDetails_response = given()
 //                .log().all()
                 .headers("Content-Type", "application/json",
                         "Authorization", login_jsonPath.getString("token"))
@@ -192,8 +188,7 @@ public class LoginTest {
 
 
 //        Delete Order
-        Response deleteOrder_response = RestAssured
-                .given()
+        Response deleteOrder_response = given()
 //                .log().all()
                 .headers("Content-Type", "application/json",
                         "Authorization", login_jsonPath.getString("token"))
@@ -209,6 +204,7 @@ public class LoginTest {
 //        System.out.println(deleteOrder);
 
         JsonPath deleteOrder_jsonPath = new JsonPath(deleteOrder);
+//        Assert.assertEquals(deleteOrder_jsonPath.getString("message"), "Orders Deleted Successfully");
         System.out.println("Message : " + deleteOrder_jsonPath.getString("message"));
 
     }
